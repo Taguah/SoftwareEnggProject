@@ -1,6 +1,7 @@
 package project.excelSpike;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 
 /*
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  */
 public class AreaSchema {
 
-	private Map<String, ArrayList<String>> areaMap;
+	private static Map<String, ArrayList<String>> areaMap = new HashMap<String, ArrayList<String>>();
 	
 	/*
 	 * Calls ExcelReader to read the relevant config file
@@ -19,7 +20,7 @@ public class AreaSchema {
 	 * Currently set so that redundant area names will be merged. This may not be necessary.
 	 * @param String The filename for the area config
 	 */
-	public void setAreasFromFile(String fileName) {
+	public static void setAreasFromFile(String fileName) {
 		areaMap.clear();
 		ArrayList<String> fileContents = ExcelReader.readConfigFile(fileName);
 		while (!fileContents.isEmpty()) {
@@ -46,12 +47,12 @@ public class AreaSchema {
 		}
 	}
 	
-	public ArrayList<String> getAllAreas(){
+	public static ArrayList<String> getAllAreas(){
 		ArrayList<String> areas = new ArrayList<String>(areaMap.keySet());
 		return areas;
 	}
 	
-	public ArrayList<String> getAllCoursesInArea(String area){
+	public static ArrayList<String> getAllCoursesInArea(String area){
 		return areaMap.get(area);
 	}
 	

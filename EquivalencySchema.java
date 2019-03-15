@@ -2,6 +2,7 @@ package project.excelSpike;
 
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * Class for the equivalency schema.
@@ -10,8 +11,8 @@ import java.util.ArrayList;
  */
 public class EquivalencySchema {
 
-	private Map<String, String> equivMap;
-	
+	private static Map<String, String> equivMap = new HashMap<String, String>();
+
 	/*
 	 * Calls ExcelReader to read the relevant config file
 	 * (NOTE: we may want to hardcode this file path)
@@ -20,7 +21,7 @@ public class EquivalencySchema {
 	 * Currently set so that the last equivalency listed overwrites older ones.
 	 * @param String The filename for the equivalency config
 	 */
-	public void setEquivalenciesFromFile(String fileName) {
+	public static void setEquivalenciesFromFile(String fileName) {
 		equivMap.clear();
 		ArrayList<String> fileContents = ExcelReader.readConfigFile(fileName);
 		while (!fileContents.isEmpty()) {
@@ -43,7 +44,7 @@ public class EquivalencySchema {
 	 * Checks if a course has a mapped equivalent. If so, return that course's name. Otherwise, returns the original name.
 	 * @return The name of the course or, if available, its equivalent.
 	 */
-	public String getEquivalent(String courseName){
+	public static String getEquivalent(String courseName){
 		if (equivMap.containsKey(courseName)) {
 			return (equivMap.get(courseName));
 		}
