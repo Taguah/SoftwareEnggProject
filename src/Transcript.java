@@ -112,18 +112,6 @@ public class Transcript {
             }
             System.out.println();
         }
-        /*
-        Transcript transcript = readTranscriptFromFile("/mnt/c/Users/Jenny/Google Drive/Winter2019/CS2043/Transcript Analyzer/transcript.txt");
-        for(Course course: transcript.getCourses()) {
-            System.out.println(course.toString());
-            
-        }*/
     }
 }
 
-//filepaths - linux, windows
-///mnt/c/Users/Jenny/Google Drive/Winter2019/CS2043/Transcript Analyzer/transcript.txt
-//C:\\Users\\Vlad\\Google Drive\\Winter2019\\CS2043\\Transcript Analyzer\\transcript.txt
-
-//folderpath
-//C:\\Users\\Jenny\\Google Drive\\Winter2019\\CS2043\\Transcript Analyzer\\Transcripts
