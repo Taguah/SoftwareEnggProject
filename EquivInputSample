@@ -1,3 +1,5 @@
+***Enter the updated course name on the first line and the older course names on the next line, separated by commas.***
+Lines with '*' are commented out
 Math101
 Math102, Econ101
 Econ102

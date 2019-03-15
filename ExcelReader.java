@@ -16,7 +16,9 @@ public class ExcelReader{
 			String line;
 			while((line = br.readLine()) != null){
 			    //process the line
-			    fileContents.add(line);
+			    if (!line.contains("*")){
+			    	fileContents.add(line);
+			    }
 			}
 			br.close();
 		}
