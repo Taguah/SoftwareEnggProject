@@ -74,7 +74,7 @@ public class GradeSchema {
         return gradeMap.get(level);
     }
     
-    public Set<String> getLevels(){
+    public Set<Level> getLevels(){
     	return gradeMap.keySet();
     }
     
