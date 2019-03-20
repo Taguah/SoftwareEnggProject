@@ -1,0 +1,106 @@
+package project.excelSpike;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+public class TranscriptFileReader {
+
+    private static Set<String> gradeSet = new HashSet<>(Arrays.asList(new String[] {"A+", "A", "A-", "B+", "B", 
+            "B-", "C+", "C", "C-", "D", "F",
+            "AUD", "CTN", "CR", "NCR", 
+            "DNW", "INC", "NR", "W"} ));
+
+    /*
+    Reads each transcript text file from a specified folder path and creates a 
+    transcript object from each file. 
+    Returns a list of all the transcripts within a folder.
+    */
+    private static ArrayList<Transcript> readTranscriptsFromFolder(String folderPath) {
+
+        ArrayList<Transcript> transcriptList = new ArrayList<>();
+
+        try {
+            File folder = new File(folderPath);
+
+            for(File file : folder.listFiles()) {
+                String filepath;
+
+                if(file.isFile()) {
+                    filepath = file.getAbsolutePath();
+                    Transcript transcript = readTranscriptFromFile(filepath);
+                    transcriptList.add(transcript);
+                }
+            }
+            return transcriptList;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*
+    Reads line by line from a transcript text file, and splits each line on
+    the transcript into an array of strings, which represent the different
+    attributes in a course. 
+    Returns a transcript object which contatins a list of all the courses 
+    listed in one transcript.
+    */
+    public static Transcript readTranscriptFromFile(String filePath) {
+
+        ArrayList<Course> courses = new ArrayList<>();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if(line.isEmpty()) {
+                    continue;
+                }
+                String[] strArr = line.split("\\s+");
+                int n = strArr.length;
+                String grade = null;
+                if(gradeSet.contains(strArr[n-3])) {
+                    grade = strArr[n-3];
+                }
+                Course course = new Course(strArr[0], strArr[1], grade, Double.parseDouble(strArr[n-2]), strArr[n-1]);
+                courses.add(course);
+            }
+            Transcript transcript = new Transcript(courses);
+            return transcript;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally {
+            if(br != null) {
+                try {
+                    br.close();
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        ArrayList<Transcript> tList = readTranscriptsFromFolder("/mnt/c/Users/Jenny/Google Drive/Winter2019/CS2043/Transcript Analyzer/Transcripts");
+//        TranscriptList testList = new TranscriptList(tList);
+        for(Transcript transcript : tList) {
+            for(Course course : transcript.getCourses()) {
+                System.out.println(course.toString());
+            }
+            System.out.println();
+        }
+    }
+}

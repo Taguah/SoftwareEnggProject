@@ -14,6 +14,10 @@ public class Transcript {
         courselist = new ArrayList<Course>();
     }
    
+    public void addCourse(Course course) {
+    	this.courselist.add(course);
+    }
+    
     public Transcript(ArrayList<Course> courseListIn) {
         courselist = courseListIn;
     }

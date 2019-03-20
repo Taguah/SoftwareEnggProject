@@ -37,13 +37,17 @@ public class AreaSchema {
 				areaCourses.add(course);
 			}
 			
-			if (areaMap.containsKey(areaName)) {
-				ArrayList<String> currentCourses = areaMap.get(areaName);
-				currentCourses.addAll(areaCourses);
-			}
-			else {
-				areaMap.put(areaName, areaCourses);
-			}
+			addArea(areaName, areaCourses);
+		}
+	}
+
+	public static void addArea(String area, ArrayList<String> courses) {
+		if (areaMap.containsKey(area)) {
+			ArrayList<String> currentCourses = areaMap.get(area);
+			currentCourses.addAll(courses);
+		}
+		else {
+			areaMap.put(area, courses);
 		}
 	}
 	

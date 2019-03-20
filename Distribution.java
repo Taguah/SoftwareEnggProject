@@ -3,12 +3,13 @@ package project.excelSpike;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class Distribution {
 
-	private Map<String, ArrayList<Course>> distributionMap;
-	private GradeSchema gradeSchema;
+	protected TranscriptList transcriptList;
 	
+/*
 	static enum Level {
 		Exceeds,
 		Meets,
@@ -16,17 +17,13 @@ public abstract class Distribution {
 		Fails,
 		Other
         }
-	
-	public Distribution(String gradeSchemaFile) {
-		gradeSchema = new GradeSchema(gradeSchemaFile);
-		distributionMap = new HashMap<String, ArrayList<Course>>();
-	}
+*/
 	
 	public Map<String, Integer> createDistributionMap(){
 		Map<String, Integer> distributionMap = new HashMap<String, Integer>();
-		Set<Level> levels = gradeSchema.getLevels();
-		for (Level level : levels){
-			distributionMap.put(level, 0);
+		Set<String> levels = GradeSchema.getLevels();
+		for (String level : levels){
+			distributionMap.put(level.toString(), 0);
 		}
 		return distributionMap;
 	}
