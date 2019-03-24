@@ -14,11 +14,7 @@ import java.io.IOException;
 public class Transcript {
 
     private ArrayList<Course> courselist = new ArrayList<>();
-    private static Set<String> gradeSet = new HashSet<>(Arrays.asList(new String[] {"A+", "A", "A-", "B+", "B", 
-                                                                                    "B-", "C+", "C", "D", "F",
-                                                                                    "AUD", "CTN", "CR", "NCR", 
-                                                                                    "DNW", "INC", "NR", "W"} ));
-
+   
     public Transcript(ArrayList<Course> courselist) {
         this.courselist = courselist;
     }
