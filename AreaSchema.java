@@ -56,8 +56,17 @@ public class AreaSchema {
 		return areas;
 	}
 	
-	public static ArrayList<String> getAllCoursesInArea(String area){
-		return areaMap.get(area);
-	}
+	//public static ArrayList<String> getAllCoursesInArea(String area){
+	//	return areaMap.get(area);
+	//}
+	
+	public ArrayList<Course> getAllCoursesInArea(String area){
+        ArrayList<Course> courseList = new ArrayList<Course>();
+        for (Transcript transcript : transcriptList) {
+            ArrayList<Course> transcriptCourses = transcript.getCoursesByArea(area);
+            courseList.addAll(transcriptCourses);
+        }
+        return courseList;
+    }
 	
 }
