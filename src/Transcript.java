@@ -102,6 +102,21 @@ public class Transcript {
             }
         }
     }
+    
+    public static double averageForArea(String area){
+        double average;
+        double creditHours;
+        average = 0;
+        creditHours = 0;
+        ArrayList<Course> coursesInArea = new ArrayList<>(); 
+        AreaSchema areaSchema = new AreaSchema();
+        coursesInArea = areaSchema.getAllCoursesInArea(area);
+        for(Course c: coursesInArea){
+            creditHours += c.getCreditHour();
+            average += c.getCreditHour() * ( c.getGrade().getNumberGrade() );
+        }
+        return (average/creditHours); 
+    }
 
     public static void main(String[] args) {
 
