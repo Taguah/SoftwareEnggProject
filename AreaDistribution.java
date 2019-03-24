@@ -10,6 +10,7 @@ public class AreaDistribution extends Distribution{
 
 	private ArrayList<String> areas;
 	private Map<String, Map<String, Integer>> areaDistributionMap;
+	private TranscriptList transcriptList;
 	
 	public AreaDistribution(TranscriptList transcriptList) {
 		this.transcriptList = transcriptList;
