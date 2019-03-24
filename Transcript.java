@@ -50,11 +50,10 @@ public class Transcript {
     	return areaCourses;
     }
     
-    public static double averageForArea(String area){
-        double average;
-        double creditHours;
-        average = 0;
-        creditHours = 0;
+    public static double getAverageForArea(String area){
+        double average = 0;
+        double creditHours = 0;
+        
         ArrayList<Course> coursesInArea = new ArrayList<>(); 
         AreaSchema areaSchema = new AreaSchema();
         coursesInArea = areaSchema.getAllCoursesInArea(area);
