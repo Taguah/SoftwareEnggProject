@@ -31,22 +31,44 @@ public class Grade {
 	
 	public String convertNumberToLetter(double number){
 		String letterGrade;
-		switch(number) {
-			case 4.0: letterGrade = "A";
-			case 3.7: letterGrade = "A-";
-			case 3.3: letterGrade = "B+";
-			case 3.0: letterGrade = "B";
-			case 2.7: letterGrade = "B-";
-			case 2.3: letterGrade = "C+";
-			case 2.0: letterGrade = "C";
-			case 1.7: letterGrade = "C-";
-			case 1.3: letterGrade = "D+";
-			case 1.0: letterGrade = "D";
+                String num;
+                num = Double.toString(number);
+		switch (num) {
+			case "4.0":
+				letterGrade = "A";
+				break;
+			case "3.7":
+				letterGrade = "A-";
+				break;
+			case "3.3": 
+				letterGrade = "B+";
+				break;
+			case "3.0": 
+				letterGrade = "B";
+				break;
+			case "2.7": 
+				letterGrade = "B-";
+				break;
+			case "2.3": 
+				letterGrade = "C+";
+				break;
+			case "2.0": 
+				letterGrade = "C";
+				break;
+			case "1.7": 
+				letterGrade = "C-";
+				break;
+			case "1.3": 
+				letterGrade = "D+";
+				break;
+			case "1.0": 
+				letterGrade = "D";
+                                break;
 			default: letterGrade = "D-";
 		}
 		return letterGrade;
 	}
-	
+		
 	public double getNumberGrade() {
 		return numberGrade;
 	}
