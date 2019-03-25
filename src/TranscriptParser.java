@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TranscriptParser {
-
+    
     private ArrayList<Course> courselist = new ArrayList<>();
     private static Set<String> gradeSet = new HashSet<>(Arrays.asList(new String[] {"A+", "A", "A-", "B+", "B", 
                                                                                     "B-", "C+", "C", "D", "F",
