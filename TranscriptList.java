@@ -66,16 +66,6 @@ public class TranscriptList {
     	return rawDistribution;
     }
 
-    public Map<String, AreaDistribution> createAreaDistributionMap(){
-    	Map<String, AreaDistribution> areaDistributionMap = new HashMap<String, AreaDistribution>();
-    	ArrayList<String> areas = AreaSchema.getAllAreas();
-    	for (String area : areas) {
-    		AreaDistribution areaDistribution = createAreaDistribution(area);
-    		areaDistributionMap.put(area, areaDistribution);
-    	}
-    	return areaDistributionMap;
-    }
-
     public AreaDistribution createAreaDistribution(String area) {
     	AreaDistribution areaDistribution = new AreaDistribution(this);
     	return areaDistribution;
