@@ -18,7 +18,7 @@ public abstract class Distribution {
 		Other
         }
 */
-	
+
 	public Map<String, Integer> createDistributionMap(){
 		Map<String, Integer> distributionMap = new HashMap<String, Integer>();
 		Set<String> levels = GradeSchema.getLevels();

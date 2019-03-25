@@ -1,32 +1,32 @@
+package project.excelSpike;
+
 /*
 @author Jenny Wang
 */
 
+import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.HashSet;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class Transcript {
 
-    private ArrayList<Course> courselist = new ArrayList<>();
-   
-    public Transcript(ArrayList<Course> courselist) {
-        this.courselist = courselist;
+    private ArrayList<Course> courselist;
+
+    public Transcript() {
+        courselist = new ArrayList<Course>();
     }
-    
+   
     public void addCourse(Course course) {
     	this.courselist.add(course);
+    }
+    
+    public Transcript(ArrayList<Course> courseListIn) {
+        courselist = courseListIn;
     }
 
     public ArrayList<Course> getCourses() {
         return courselist;
     }
-    
+
     public ArrayList<Grade> getAllGrades(){
     	ArrayList<Grade> grades = new ArrayList<Grade>();
     	for(Course course : courselist) {
@@ -35,9 +35,9 @@ public class Transcript {
     	return grades;
     }
     
-    public ArrayList<Course> getCoursesByArea(String area){
-    	ArrayList<Course> areaCourses = new ArrayList<Course>();
-    	ArrayList<String> relevantCourses = AreaSchema.getAllCoursesInArea(area);
+    public List<Course> getCoursesByArea(String area){
+    	List<Course> areaCourses = new ArrayList<Course>();
+    	List<String> relevantCourses = AreaSchema.getAllCoursesInArea(area);
     	for (Course course : courselist) {
     		if (relevantCourses.contains(course.getCourseID())){
     			areaCourses.add(course);
@@ -45,19 +45,24 @@ public class Transcript {
     	}
     	return areaCourses;
     }
-    
-    public static double getAverageForArea(String area){
+
+    public double getAverageForArea(String area){
         double average = 0;
         double creditHours = 0;
         
-        ArrayList<Course> coursesInArea = new ArrayList<>(); 
-        AreaSchema areaSchema = new AreaSchema();
-        coursesInArea = areaSchema.getAllCoursesInArea(area);
-        for(Course c: coursesInArea){
-            creditHours += c.getCreditHour();
-            average += c.getCreditHour() * ( c.getGrade().getNumberGrade() );
+        List<String> coursesInArea = AreaSchema.getAllCoursesInArea(area);
+        for (Course course : courselist) {
+        	if (coursesInArea.contains(course.getCourseID())) {
+        		creditHours += course.getCreditHours();
+        		average += course.getCreditHours() * ( course.getGrade().getNumberGrade() );
+        	}
         }
-        return (average/creditHours); 
+        if (creditHours == 0) {
+        	return -1;
+        }
+        else {
+        	return (average/creditHours); 
+        }
     }
+    
 }
-

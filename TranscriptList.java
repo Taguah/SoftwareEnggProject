@@ -2,6 +2,7 @@ package project.excelSpike;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
@@ -24,38 +25,48 @@ public class TranscriptList {
     	}
     	return courseNames;
     }
-    
-    public Map<String, ArrayList<Course>> getAllCoursesByArea(){
-    	ArrayList<String> areas = AreaSchema.getAllAreas();
-    	Map<String, ArrayList<Course>> areaMap = new HashMap<String, ArrayList<Course>>();
+
+    public Map<String, List<String>> getAllAveragesByArea(){
+    	List<String> areas = AreaSchema.getAllAreas();
+    	Map<String, List<String>> areaMap = new HashMap<String, List<String>>();
     	for (String area : areas) {
-    		ArrayList<Course> areaCourses = this.getAllCoursesInArea(area);
-    		areaMap.put(area, areaCourses);
+    		List<String> averageGrades = new ArrayList<String>();
+    		for (Transcript transcript : transcriptList) {
+    			double averageNumberGrade = transcript.getAverageForArea(area);
+    			if (averageNumberGrade >= 0) {
+    				String averageLetterGrade = Grade.convertNumberToLetter(averageNumberGrade);
+    				averageGrades.add(averageLetterGrade);
+    			}
+    		}
+    		areaMap.put(area, averageGrades);
     	}
     	return areaMap;
     }
     
-    public Map<String, ArrayList<Course>> getAllCoursesByName(){
-    	Map<String, ArrayList<Course>> courseNameMap = new HashMap<String, ArrayList<Course>>();
+    public Map<String, List<Course>> getAllCoursesByName(){
+    	Map<String, List<Course>> courseNameMap = new HashMap<String, List<Course>>();
     	for (Transcript transcript : transcriptList) {
-    		ArrayList<Course> courseList = transcript.getCourses();
+    		List<Course> courseList = transcript.getCourses();
     		for (Course course : courseList) {
     			String courseName = course.getCourseID();
-    			ArrayList<Course> courselist = new ArrayList<Course>();;
-    			if (!courseNameMap.containsKey(courseName)) {
-    				courselist = courseNameMap.get(courseName);
+    			List<Course> currentCourseList;
+    			if (courseNameMap.containsKey(courseName)) {
+    				currentCourseList = courseNameMap.get(courseName);
     			}
-    			courseList.add(course);
-    			courseNameMap.put(courseName, courseList);
+    			else {
+    				currentCourseList = new ArrayList<Course>();
+    			}
+    			currentCourseList.add(course);
+    			courseNameMap.put(courseName, currentCourseList);
     		}
     	}
     	return courseNameMap;
     }
-    
-    public ArrayList<Course> getAllCoursesInArea(String area){
-    	ArrayList<Course> courseList = new ArrayList<Course>();
+
+    public List<Course> getAllCoursesInArea(String area){
+    	List<Course> courseList = new ArrayList<Course>();
     	for (Transcript transcript : transcriptList) {
-			ArrayList<Course> transcriptCourses = transcript.getCoursesByArea(area);
+			List<Course> transcriptCourses = transcript.getCoursesByArea(area);
 			courseList.addAll(transcriptCourses);
 		}
     	return courseList;
@@ -68,7 +79,7 @@ public class TranscriptList {
 
     public Map<String, AreaDistribution> createAreaDistributionMap(){
     	Map<String, AreaDistribution> areaDistributionMap = new HashMap<String, AreaDistribution>();
-    	ArrayList<String> areas = AreaSchema.getAllAreas();
+    	List<String> areas = AreaSchema.getAllAreas();
     	for (String area : areas) {
     		AreaDistribution areaDistribution = createAreaDistribution(area);
     		areaDistributionMap.put(area, areaDistribution);

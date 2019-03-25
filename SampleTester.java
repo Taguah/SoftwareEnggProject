@@ -1,6 +1,6 @@
 package project.excelSpike;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /*
  * I made AreaSchema and EquivalencySchema abstract, since we won't have more than one of them and we don't preserve the information.
@@ -14,7 +14,7 @@ public class SampleTester {
 		 * In distribution this would be a couple loops. The number of areas shouldn't be too big so this won't be much of a bottleneck.
 		 */
 		AreaSchema.setAreasFromFile("/home1/ugrads/ecamp/CS2043/AreaInputSample");
-		ArrayList<String> allAreas = AreaSchema.getAllAreas();
+		List<String> allAreas = AreaSchema.getAllAreas();
 		for (String area : allAreas) {
 			System.out.println(area);
 			System.out.println(AreaSchema.getAllCoursesInArea(area));
