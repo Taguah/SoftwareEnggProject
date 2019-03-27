@@ -9,16 +9,6 @@ public abstract class Distribution {
 
 	protected TranscriptList transcriptList;
 	
-/*
-	static enum Level {
-		Exceeds,
-		Meets,
-		Marginal,
-		Fails,
-		Other
-        }
-*/
-	
 	public Map<String, Integer> createDistributionMap(){
 		Map<String, Integer> distributionMap = new HashMap<String, Integer>();
 		Set<String> levels = GradeSchema.getLevels();
@@ -36,6 +26,4 @@ public abstract class Distribution {
 		}
 		return letterGrades;
 	}
-	
-
 }

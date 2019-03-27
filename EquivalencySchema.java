@@ -2,6 +2,7 @@ package project.excelSpike;
 
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 /*
@@ -37,6 +38,12 @@ public class EquivalencySchema {
 				course = course.trim();
 				equivMap.put(course, mainCourseName);
 			}
+		}
+	}
+	
+	public static void setEquivalency(String course, List<String> equivalents) {
+		for (String equivCourse : equivalents) {
+			equivMap.put(equivCourse, course);
 		}
 	}
 

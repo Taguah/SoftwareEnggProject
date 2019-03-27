@@ -3,6 +3,7 @@ package project.excelSpike;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Class for the area schema.
@@ -51,22 +52,13 @@ public class AreaSchema {
 		}
 	}
 	
-	public static ArrayList<String> getAllAreas(){
+	public static List<String> getAllAreas(){
 		ArrayList<String> areas = new ArrayList<String>(areaMap.keySet());
 		return areas;
 	}
 	
-	//public static ArrayList<String> getAllCoursesInArea(String area){
-	//	return areaMap.get(area);
-	//}
-	
-	public ArrayList<Course> getAllCoursesInArea(String area){
-        ArrayList<Course> courseList = new ArrayList<Course>();
-        for (Transcript transcript : transcriptList) {
-            ArrayList<Course> transcriptCourses = transcript.getCoursesByArea(area);
-            courseList.addAll(transcriptCourses);
-        }
-        return courseList;
-    }
+	public static List<String> getAllCoursesInArea(String area){
+		return areaMap.get(area);
+	}
 	
 }

@@ -27,7 +27,7 @@ public class Course {
     	return grade;
     }
     
-    public double getCreditHour(){
-        return creditHours;
+    public double getCreditHours() {
+    	return creditHours;
     }
 }
