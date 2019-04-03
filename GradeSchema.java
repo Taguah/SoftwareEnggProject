@@ -1,4 +1,4 @@
-package project.excelSpike;
+package project.excelSpike2;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -10,34 +10,8 @@ import java.util.ArrayList;
 
 public class GradeSchema {
 
-/*
-    static enum Level {
-        Exceeds,
-        Meets,
-        Marginal,
-        Fails,
-        Other
-    }
-*/
-
-/*
-	private static ArrayList<String> levels = new ArrayList<String>() {
-		{
-			add("Exceeds");
-			add("Meets");
-			add("Marginal");
-			add("Fails");
-			add("Other");
-		}
-	};
-*/
-
     private static HashMap<String, Set<String>> gradeMap = new HashMap<>();
 
-    /* Creating an object of GradeSchema requires the filepath to the grade schema text file,
-    and the constructor will read the file line by line to construct a map of levels to their
-    respective grades.
-    */
     public static void SetGradeSchema(String filepath) {
         BufferedReader br = null;
         try {
@@ -89,8 +63,31 @@ public class GradeSchema {
     }
     
     public static Set<String> getLevels(){
+    	Set<String> levels = gradeMap.keySet();
+    	levels.add("RFail");
+    	levels.add("RExceeds");
+    	levels.add("RMarginal");
     	return gradeMap.keySet();
     }
-
+    
+    public static String checkLevel(String letterGrade) {
+    	for(String level : gradeMap.keySet()) {
+    		Set<String> letterGrades = gradeMap.get(level);
+    		if(letterGrades.contains(letterGrade)) {
+    			return level;
+    		}
+    	}
+    	return "Other";
+    }
+    
+    public static Boolean checkIfFailed(Course course) {
+		String letterGrade = course.getGrade().getLetterGrade();
+		if (GradeSchema.checkLevel(letterGrade) == "Fail") {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 }
