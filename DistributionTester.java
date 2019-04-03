@@ -33,22 +33,25 @@ public class DistributionTester {
 		EquivalencySchema.setEquivalency("Math101", equivalents);
 
 		//Set the areas
-		ArrayList<String> mathList = new ArrayList<String>() {
+		ArrayList<String> admList = new ArrayList<String>() {
 			{
-				add("Math101");
-				add("Math102");
+				add("ADM1113");
+				add("ADM1213");
+				add("ADM1313");
+				add("ADM2513");
+				add("ADM3123");
 			}
 		};
 		
-		ArrayList<String> englList = new ArrayList<String>() {
+		ArrayList<String> biolList = new ArrayList<String>() {
 			{
-				add("Engl101");
-				add("Engl102");
+				add("BIOL1001");
+				add("BIOL1621");
 			}
 		};
-
-		AreaSchema.addArea("Math", mathList);
-		AreaSchema.addArea("Engl", englList);
+		
+		AreaSchema.addArea("ADM", admList);
+		AreaSchema.addArea("BIOL", biolList);
 		
 		
 		//Specific Instance Test
@@ -69,7 +72,12 @@ public class DistributionTester {
 			Map<String, Integer> areaMap = areaDist.getDistributionForArea(area);
 			System.out.println(area);
 			for(String level : areaMap.keySet()) {
-				System.out.println(level + "\t" + areaMap.get(level));
+				if(level.equals("Marginal")) {
+					System.out.println(level + "\t" + areaMap.get(level));
+				}
+				else {
+					System.out.println(level + "\t\t" + areaMap.get(level));
+				}
 			}
 			System.out.println();
 		}
@@ -81,7 +89,12 @@ public class DistributionTester {
 			Map<String, Integer> courseDist = rawMap.get(courseName);
 			System.out.println(courseName);
 			for(String level : courseDist.keySet()) {
-				System.out.println(level + "\t" + courseDist.get(level));
+				if(level.equals("Marginal")) {
+					System.out.println(level + "\t" + courseDist.get(level));
+				}
+				else {
+					System.out.println(level + "\t\t" + courseDist.get(level));
+				}
 			}
 			System.out.println();
 		}
@@ -93,7 +106,14 @@ public class DistributionTester {
 			Map<String, Integer> courseDist = retakenMap2.get(courseName);
 			System.out.println(courseName + " Retaken");
 			for(String level : courseDist.keySet()) {
-				System.out.println(level + "\t" + courseDist.get(level));
+				if(level.equals("Other")) {
+				}
+				else if(level.equals("Marginal")) {
+					System.out.println(level + "\t" + courseDist.get(level));
+				}
+				else {
+					System.out.println(level + "\t\t" + courseDist.get(level));
+				}
 			}
 			System.out.println();
 		}
