@@ -89,26 +89,19 @@ public class TranscriptList {
     	return retakenCourseGrades;
     	
     }
-    
-/*
-    public RawDistribution createRawDistribution() {
-    	RawDistribution rawDistribution = new RawDistribution(this);
-    	return rawDistribution;
-    }
 
-    public Map<String, AreaDistribution> createAreaDistributionMap(){
-    	Map<String, AreaDistribution> areaDistributionMap = new HashMap<String, AreaDistribution>();
-    	List<String> areas = AreaSchema.getAllAreas();
-    	for (String area : areas) {
-    		AreaDistribution areaDistribution = createAreaDistribution(area);
-    		areaDistributionMap.put(area, areaDistribution);
+    public Map<String, Integer> getStudentsPerYear(){
+    	Map<String, Integer> studentsPerYear = new HashMap<String, Integer>();
+    	for(Transcript transcript : transcriptList) {
+    		String year = transcript.checkRank();
+    		if(studentsPerYear.containsKey(year)) {
+    			int number = studentsPerYear.get(year);
+    			studentsPerYear.put(year, number+1);
+    		}
+    		else {
+    			studentsPerYear.put(year, 1);
+    		}
     	}
-    	return areaDistributionMap;
+    	return studentsPerYear;
     }
-
-    public AreaDistribution createAreaDistribution(String area) {
-    	AreaDistribution areaDistribution = new AreaDistribution(this);
-    	return areaDistribution;
-    }
-*/
 }
