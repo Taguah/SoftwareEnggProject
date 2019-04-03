@@ -1,104 +1,141 @@
-package project.excelSpike2;
+package project.excelSpike;
 
 /*
-@author Jenny Wang, Ted Camp
+@author Ted Camp, Jenny Wang
 */
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+
+import project.excelSpike.Course;
+import project.excelSpike.GradeSchema;
+
 import java.util.ArrayList;
 
 public class Transcript {
 
-    private CourseList courseList;
+	private Map<String, Course> passedCourses;
+	private Map<String, Course> failedCourses;
+	private Map<String, List<Course>> retakenCourses;
 
     public Transcript() {
-        this.courselist = new CourseList();
+        passedCourses = new HashMap<String, Course>();
+        failedCourses = new HashMap<String, Course>();
+        retakenCourses = new HashMap<String, List<Course>>();
     }
-
-    public void addCourse(Course course) {
-    	this.courseList.add(course);
-    }
-
+   
     public Transcript(ArrayList<Course> courseListIn) {
-    	this.courselist = new CourseList();
+    	passedCourses = new HashMap<String, Course>();
+        failedCourses = new HashMap<String, Course>();
+        retakenCourses = new HashMap<String, List<Course>>();
     	for (Course course : courseListIn) {
-        	courseList.addCourse(course);
-        }
+        	this.addCourse(course);
+        };
     }
 
-    public List<Course> getCourses() {
-    	List<Course> courses = courseList.getCourses();
-        return courses;
-    }
-    
-    public List<Course> getPassingCourses() {
-    	List<Course> courses = courseList.getPassingCourses();
-        return courses;
-    }
+    public void addCourse(Course newCourse) {
+    	//Treat courses by their equivalent names
+		String courseName = EquivalencySchema.getEquivalent(newCourse.getCourseID());
+		//Check if new mark is pass or fail
+		if(GradeSchema.checkIfFailed(newCourse)) {
+			//If failed, check if there has already been a failure
+			Set<String> courseNamesInList = failedCourses.keySet();
+			if (courseNamesInList.contains(courseName)) {
+				addRetakenCourse(newCourse);
+			}
+			else {
+				failedCourses.put(courseName, newCourse);
+			}
+			
+		}
+		else {
+			//Else check if it was passed
+			Set<String> courseNamesInList = passedCourses.keySet();
+			if (courseNamesInList.contains(courseName)) {
+				Course currentCourse = passedCourses.get(courseName);
 
-    public List<Course> getRetakenCourses() {
-    	List<Course> courses = courseList.getRetakenCourses();
-        return courses;
-    }
+				//If there is already a passing grade, compare them and keep the highest while adding the lowest to retaken courses
+				Double newGrade = newCourse.getGrade().getNumberGrade();
+				Double oldGrade = currentCourse.getGrade().getNumberGrade();
+				
+				if (newGrade < oldGrade) {
+					addRetakenCourse(newCourse);
+				}
+				else {
+					addRetakenCourse(currentCourse);
+					passedCourses.put(courseName, newCourse);
+				}
+			}
+			else {
+				passedCourses.put(courseName, newCourse);
+			}
+		}
+	}
+    
+	private void addRetakenCourse(Course course) {
+		String courseName = course.getCourseID();
+		Set<String> courseNamesInList = retakenCourses.keySet();
+		if (courseNamesInList.contains(courseName)) {
+			List<Course> retakenList = retakenCourses.get(courseName);
+			retakenList.add(course);
+			retakenCourses.put(courseName, retakenList);
+		}
+		else {
+			List<Course> retakenList = new ArrayList<Course>();
+			retakenList.add(course);
+			retakenCourses.put(courseName, retakenList);
+		}
+	}
+    
+	public Map<String, Course> getPassedCourseMap(){
+		return passedCourses;
+	}
+	
+	public Map<String, Course> getFailedCourseMap(){
+		return failedCourses;
+	}
+	
+	public Map<String, List<Course>> getRetakenCourseMap(){
+		return retakenCourses;
+	}
 
-    public List<Course> getCoursesByArea(String area){
-    	List<Course> areaCourses = new ArrayList<Course>();
-    	List<String> relevantCourses = AreaSchema.getAllCoursesInArea(area);
-    	List<Course> courses = getCourses();
-    	for (Course course : courses) {
-    		String courseName = course.getCourseID();
-    		courseName = EquivalencySchema.getEquivalent(courseName);
-    		if (relevantCourses.contains(courseName)){
-    			areaCourses.add(course);
-    		}
-    	}
-    	return areaCourses;
-    }
-    
-    public List<Course> getRetakenCoursesByArea(String area){
-    	List<Course> areaCourses = new ArrayList<Course>();
-    	List<String> relevantCourses = AreaSchema.getAllCoursesInArea(area);
-    	List<Course> courses = getRetakenCourses();
-    	for (Course course : courses) {
-    		String courseName = course.getCourseID();
-    		courseName = EquivalencySchema.getEquivalent(courseName);
-    		if (relevantCourses.contains(courseName)){
-    			areaCourses.add(course);
-    		}
-    	}
-    	return areaCourses;
-    }
-    public double getAverageForArea(String area){
-        double average = 0;
-        double creditHours = 0;
-        
-        List<String> coursesInArea = AreaSchema.getAllCoursesInArea(area);
-        List<Course> courses = getCourses();
-        for (Course course : courses) {
-        	if (coursesInArea.contains(course.getCourseID())) {
-        		creditHours += course.getCreditHours();
-        		average += course.getCreditHours() * ( course.getGrade().getNumberGrade() );
-        	}
-        }
-        if (creditHours == 0) {
-        	return -1;
-        }
-        else {
-        	return (average/creditHours); 
-        }
-    }
-    
-    public String checkRank() {
-    	double totalCreditHours = 0;
-    	//Check retaken needs to be added
-    	List<String> coursesTaken = new ArrayList<String>();
-    	List<Course> courses = courseList.getPassingCourses();
-    	for (Course course : courses) {
-    		totalCreditHours = totalCreditHours + course.getCreditHours();
-    	}
-    	//Below needs rank schema
-    	//String rank = RankSchema.checkRank(totalCreditHours);
-    	String rank = "Boop";
-    	return rank;
-    }
+	public Map<String, String> getAverageGradesByArea(){
+		Map<String, String> averageGrades = new HashMap<String, String>();
+		List<String> areas = AreaSchema.getAllAreas();
+		Set<String> passedCourseNames = passedCourses.keySet();
+		Set<String> failedCourseNames = failedCourses.keySet();
+		Set<String> retakenCourseNames = retakenCourses.keySet();
+		for (String area : areas) {
+			List<String> coursesInArea = AreaSchema.getAllCoursesInArea(area);
+			List<Double> gradesToAverage = new ArrayList<Double>();
+			for (String courseName : coursesInArea) {
+				if (passedCourseNames.contains(courseName)) {
+					if(GradeSchema.checkLevel(passedCourses.get(courseName).getGrade().getLetterGrade()) != "Other") {
+						gradesToAverage.add(passedCourses.get(courseName).getGrade().getNumberGrade());
+					}
+				}
+				if (failedCourseNames.contains(courseName)) {
+					gradesToAverage.add(failedCourses.get(courseName).getGrade().getNumberGrade());
+				}
+				if (retakenCourseNames.contains(courseName)) {
+					List<Course> retakenCoursesOfName = retakenCourses.get(courseName);
+					for (Course retakenCourse : retakenCoursesOfName) {
+						gradesToAverage.add(retakenCourse.getGrade().getNumberGrade());
+					}
+				}
+			}
+			if(gradesToAverage.size() > 0) {
+				double total = 0;
+				for(double numberGrade : gradesToAverage) {
+					total += numberGrade;
+				}
+				Grade averageGrade = new Grade(total/gradesToAverage.size());
+				String letterGrade = averageGrade.getLetterGrade();
+				averageGrades.put(area, letterGrade);
+			}
+		}
+		return averageGrades;
+	}
 }

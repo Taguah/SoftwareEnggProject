@@ -20,7 +20,7 @@ public class Course {
     }
 
     public String toString() {
-        return courseID + " " + section + " " +  grade.getLetterGrade() + " " + creditHours + " " + term;
+        return courseID + " " + section + " " +  grade + " " + creditHours + " " + term;
     }
 
     public Grade getGrade() {

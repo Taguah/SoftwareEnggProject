@@ -1,4 +1,4 @@
-package project.excelSpike2;
+package project.excelSpike;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class GradeSchema {
 
@@ -63,10 +62,6 @@ public class GradeSchema {
     }
     
     public static Set<String> getLevels(){
-    	Set<String> levels = gradeMap.keySet();
-    	levels.add("RFail");
-    	levels.add("RExceeds");
-    	levels.add("RMarginal");
     	return gradeMap.keySet();
     }
     

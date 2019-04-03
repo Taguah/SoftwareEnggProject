@@ -9,70 +9,88 @@ import java.util.HashMap;
 
 public class TranscriptList {
 
-	ArrayList<Transcript> transcriptList;
+	List<Transcript> transcriptList;
+	Set<String> allCourseNames;
 	
-    public TranscriptList(ArrayList<Transcript> transcripts) {
+    public TranscriptList(List<Transcript> transcripts) {
     	transcriptList = transcripts;
-    }
-    
-    public Set<String> getAllCourseNames() {
-    	HashSet<String> courseNames = new HashSet<String>();
-    	for (Transcript transcript : transcriptList) {
-    		ArrayList<Course> courseList = transcript.getCourses();
-    		for (Course course : courseList) {
-    			courseNames.add(course.getCourseID());
-    		}
-    	}
-    	return courseNames;
+    	setAllCourseNames();
     }
 
+    public void setAllCourseNames() {
+    	Set<String> courseNames = new HashSet<String>();
+    	for (Transcript currentTranscript : transcriptList) {
+    		Set<String> passedCourseNames = currentTranscript.getPassedCourseMap().keySet();
+    		for(String courseName : passedCourseNames) {
+    			courseNames.add(courseName);
+    		}
+    		Set<String> failedCourseNames = currentTranscript.getPassedCourseMap().keySet();
+    		for(String courseName : failedCourseNames) {
+    			courseNames.add(courseName);
+    		}
+    	}
+    	allCourseNames = courseNames;
+    }
+
+    public Set<String> getAllCourseNames() {
+    	return allCourseNames;
+    }
+    
     public Map<String, List<String>> getAllAveragesByArea(){
     	List<String> areas = AreaSchema.getAllAreas();
     	Map<String, List<String>> areaMap = new HashMap<String, List<String>>();
     	for (String area : areas) {
-    		List<String> averageGrades = new ArrayList<String>();
+    		List<String> averagesForArea = new ArrayList<String>();
     		for (Transcript transcript : transcriptList) {
-    			double averageNumberGrade = transcript.getAverageForArea(area);
-    			if (averageNumberGrade >= 0) {
-    				String averageLetterGrade = Grade.convertNumberToLetter(averageNumberGrade);
-    				averageGrades.add(averageLetterGrade);
+    			Map<String, String> averagesForTranscript = transcript.getAverageGradesByArea();
+    			if(averagesForTranscript.containsKey(area)) {
+    				averagesForArea.add(averagesForTranscript.get(area));
     			}
     		}
-    		areaMap.put(area, averageGrades);
+    		areaMap.put(area, averagesForArea);
     	}
     	return areaMap;
     }
-    
-    public Map<String, List<Course>> getAllCoursesByEquivalentName(){
-    	Map<String, List<Course>> courseNameMap = new HashMap<String, List<Course>>();
-    	for (Transcript transcript : transcriptList) {
-    		List<Course> courseList = transcript.getCourses();
-    		for (Course course : courseList) {
-    			String courseName = course.getCourseID();
-    			courseName = EquivalencySchema.getEquivalent(courseName);
-    			List<Course> currentCourseList;
-    			if (courseNameMap.containsKey(courseName)) {
-    				currentCourseList = courseNameMap.get(courseName);
-    			}
-    			else {
-    				currentCourseList = new ArrayList<Course>();
-    			}
-    			currentCourseList.add(course);
-    			courseNameMap.put(courseName, currentCourseList);
-    		}
-    	}
-    	return courseNameMap;
-    }
 
-    public List<Course> getAllCoursesInArea(String area){
-    	List<Course> courseList = new ArrayList<Course>();
-    	for (Transcript transcript : transcriptList) {
-			List<Course> transcriptCourses = transcript.getCoursesByArea(area);
-			courseList.addAll(transcriptCourses);
-		}
-    	return courseList;
+    public Map<String, List<String>> getTakenCourseGrades(){
+    	Map<String, List<String>> takenCourseGrades = new HashMap<String, List<String>>();
+    	for (String courseName : allCourseNames) {
+    		List<String> letterGrades = new ArrayList<String>();
+    		for (Transcript transcript : transcriptList) {
+    			Map<String, Course> passedCourses = transcript.getPassedCourseMap();
+        		if(passedCourses.containsKey(courseName)) {
+        			letterGrades.add(passedCourses.get(courseName).getGrade().getLetterGrade());
+        		}
+    			Map<String, Course> failedCourses = transcript.getFailedCourseMap();
+    			if(failedCourses.containsKey(courseName)) {
+        			letterGrades.add(failedCourses.get(courseName).getGrade().getLetterGrade());
+        		}
+    		}
+    		takenCourseGrades.put(courseName, letterGrades);
+    	}
+    	return takenCourseGrades;
     }
     
+    public Map<String, List<String>> getRetakenCourseGrades(){
+    	Map<String, List<String>> retakenCourseGrades = new HashMap<String, List<String>>();
+    	for (String courseName : allCourseNames) {
+    		List<String> letterGrades = new ArrayList<String>();
+    		for (Transcript transcript : transcriptList) {
+    			Map<String, List<Course>> retakenCourses = transcript.getRetakenCourseMap();
+        		if(retakenCourses.containsKey(courseName)) {
+        			List<Course> retakenCourseList = retakenCourses.get(courseName);
+        			for(Course course : retakenCourseList) {
+        				letterGrades.add(course.getGrade().getLetterGrade());
+        			}
+        		}
+    		}
+    		retakenCourseGrades.put(courseName, letterGrades);
+    	}
+    	return retakenCourseGrades;
+    	
+    }
+    
+/*
     public RawDistribution createRawDistribution() {
     	RawDistribution rawDistribution = new RawDistribution(this);
     	return rawDistribution;
@@ -92,6 +110,5 @@ public class TranscriptList {
     	AreaDistribution areaDistribution = new AreaDistribution(this);
     	return areaDistribution;
     }
-    
-
+*/
 }
