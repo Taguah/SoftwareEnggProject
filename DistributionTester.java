@@ -3,16 +3,24 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
+
 public class DistributionTester {
 
 	public static void main(String[] args) {
 
+		List<String> equivalents = new ArrayList<String>();
+		equivalents.add("Engl102");
+		
 		//Create courses to test
 		Course course1 = new Course("Math101", "01B", "A+", 3.0, "Fall");
 		Course course2 = new Course("Math102", "02B", "C-", 3.0, "Winter");
 		Course course3 = new Course("Engl101", "01B", "F", 3.0, "Fall");
 		Course course4 = new Course("Engl101", "01B", "B-", 3.0, "Fall");
-		Course course5 = new Course("Engl101", "01B", "D", 3.0, "Fall");
+		Course course5 = new Course("Engl102", "01B", "D", 3.0, "Fall");
 		
 		//Add courses to transcripts
 		Transcript testTranscript1 = new Transcript();
@@ -114,8 +122,6 @@ public class DistributionTester {
 			System.out.println();
 		}
 		
-		testRawDist.writeExcelRaw();
-		testAreaDist.writeExcelArea();
-		AreaSchema.readExcelArea();
+		ExcelParser.parse(testRawDist, testAreaDist);
 	}
 }

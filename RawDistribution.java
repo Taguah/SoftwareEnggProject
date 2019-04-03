@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class RawDistribution extends Distribution{
 	
@@ -70,7 +70,7 @@ public class RawDistribution extends Distribution{
 		}
 		try {
 			//Relative filepath from this project
-			FileOutputStream excelOut = new FileOutputStream(new File("./src/cfg+xlsx/Raw.xlsx"));
+			FileOutputStream excelOut = new FileOutputStream(new File("./Raw.xlsx"));
 			workbook.write(excelOut);
 			excelOut.close();
 			workbook.close();
