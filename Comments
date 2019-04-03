@@ -1,4 +1,0 @@
--Removed the file parsing stuff from Transcript and TranscriptList and put it in its own class, TranscriptFileReader. That class initializes the other two.
--Wrote a tester for the area distribution. It creates four courses in two transcripts in one transcript list, then prints to make sure the distribution looks how it should. Seems to work at the moment.
--I removed enum for this test. We can add it back if we have to but it was super inconvenient for getting this written at a reasonable hour.
--Someone can write raw distribution. It should look more-or-less exactly like area distribution with "area" changed to "courseName" where appropriate.
