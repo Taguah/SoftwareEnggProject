@@ -138,4 +138,14 @@ public class Transcript {
 		}
 		return averageGrades;
 	}
+	
+	public String checkRank() {
+    	double totalCreditHours = 0;
+    	
+    	for (Course course : passedCourses.values()) {
+    		totalCreditHours = totalCreditHours + course.getCreditHours();
+    	}
+    	String rank = RankSchema.checkRank(totalCreditHours);
+    	return rank;
+    }
 }
