@@ -67,11 +67,15 @@ public class TranscriptFileReader {
                 }
                 String[] strArr = line.split("\\s+");
                 int n = strArr.length;
+                
+                if(strArr[n-2].equals("#") || strArr[n-3].equals("#")) {
+                    continue;
+                }
+                
                 String grade = null;
                 if(gradeSet.contains(strArr[n-3])) {
                     grade = strArr[n-3];
                 }
-                //lines 85-96 may be unnecessary depending on transcripts (# and BBA)
                 String semester = strArr[n-1];
                 double creditHours = 0;
                 if (!strArr[n-1].contains("/")) {
