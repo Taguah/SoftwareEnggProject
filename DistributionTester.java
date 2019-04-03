@@ -60,6 +60,8 @@ public class DistributionTester {
 		Course improveCourse1 = new Course("Engl101", "01B", "C", 3.0, "Fall");
 		Course improveCourse2 = new Course("Engl101", "01B", "A", 3.0, "Fall");
 		
+		Course dummyCourse1 = new Course("Math111", "01B", "A", 3.0, "Fall");
+		
 		Transcript testTranscript1 = new Transcript();
 		testTranscript1.addCourse(failCourse1);
 		testTranscript1.addCourse(failCourse2);
@@ -67,10 +69,19 @@ public class DistributionTester {
 		testTranscript1.addCourse(improveCourse1);
 		testTranscript1.addCourse(improveCourse2);
 		
+		Transcript testTranscript2 = new Transcript();
+		
 		List<Transcript> trList = new ArrayList<Transcript>();
 		trList.add(testTranscript1);
+		trList.add(testTranscript2);
 		
 		TranscriptList testList = new TranscriptList(trList);
+		
+		Map<String, Integer> studentsPerYear = testList.getStudentsPerYear();
+		for (String year : studentsPerYear.keySet()) {
+			System.out.println("There are " + studentsPerYear.get(year) + " students in " + year);
+		}
+		System.out.println();
 		
 		/*
 		Map<String, List<String>> takenCourseGrades = testList.getTakenCourseGrades();

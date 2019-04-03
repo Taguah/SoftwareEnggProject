@@ -1,7 +1,6 @@
 package project.excelSpike;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
@@ -9,7 +8,6 @@ import java.util.Set;
 
 public class AreaDistribution extends Distribution{
 
-	private List<String> areas;
 	private Map<String, Map<String, Integer>> areaDistributionMap;
 	
 	public AreaDistribution(TranscriptList transcriptList) {

@@ -148,4 +148,8 @@ public class Transcript {
     	String rank = RankSchema.checkRank(totalCreditHours);
     	return rank;
     }
+	
+	public String toString() {
+		return "YUP";
+	}
 }
