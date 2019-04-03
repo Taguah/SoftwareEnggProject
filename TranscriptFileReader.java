@@ -1,27 +1,40 @@
 package project.excelSpike;
 
+/*
+@author Jenny Wang
+*/
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.HashSet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
-public class TranscriptFileReader {
+public class Transcript {
 
+    private ArrayList<Course> courselist = new ArrayList<>();
     private static Set<String> gradeSet = new HashSet<>(Arrays.asList(new String[] {"A+", "A", "A-", "B+", "B", 
-            "B-", "C+", "C", "C-", "D", "F",
-            "AUD", "CTN", "CR", "NCR", 
-            "DNW", "INC", "NR", "W"} ));
+                                                                                    "B-", "C+", "C", "D", "F",
+                                                                                    "AUD", "CTN", "CR", "NCR", 
+                                                                                    "DNW", "INC", "NR", "W"} ));
+
+    public Transcript(ArrayList<Course> courselist) {
+        this.courselist = courselist;
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courselist;
+    }
 
     /*
     Reads each transcript text file from a specified folder path and creates a 
     transcript object from each file. 
     Returns a list of all the transcripts within a folder.
     */
-    private static ArrayList<Transcript> readTranscriptsFromFolder(String folderPath) {
+    public static ArrayList<Transcript> readTranscriptsFromFolder(String folderPath) {
 
         ArrayList<Transcript> transcriptList = new ArrayList<>();
 
@@ -70,7 +83,20 @@ public class TranscriptFileReader {
                 if(gradeSet.contains(strArr[n-3])) {
                     grade = strArr[n-3];
                 }
-                Course course = new Course(strArr[0], strArr[1], grade, Double.parseDouble(strArr[n-2]), strArr[n-1]);
+                //lines 85-96 may be unnecessary depending on transcripts (# and BBA)
+                String semester = strArr[n-1];
+                double creditHours = 0;
+                if (!strArr[n-1].contains("/")) {
+                    semester = strArr[n-2];
+                    creditHours = Double.parseDouble(strArr[n-3]);
+                    if(gradeSet.contains(strArr[n-4])) {
+                        grade = strArr[n-4];
+                    }
+                }
+                else {
+                    creditHours = Double.parseDouble(strArr[n-2]);
+                }
+                Course course = new Course(strArr[0], strArr[1], grade, creditHours, semester);
                 courses.add(course);
             }
             Transcript transcript = new Transcript(courses);
@@ -94,8 +120,7 @@ public class TranscriptFileReader {
 
     public static void main(String[] args) {
 
-        ArrayList<Transcript> tList = readTranscriptsFromFolder("/mnt/c/Users/Jenny/Google Drive/Winter2019/CS2043/Transcript Analyzer/Transcripts");
-//        TranscriptList testList = new TranscriptList(tList);
+        ArrayList<Transcript> tList = readTranscriptsFromFolder("C:\\Users\\Vlad\\Google Drive\\Winter2019\\CS2043\\Transcript Analyzer\\Transcripts\\cohort_1");
         for(Transcript transcript : tList) {
             for(Course course : transcript.getCourses()) {
                 System.out.println(course.toString());
@@ -103,4 +128,8 @@ public class TranscriptFileReader {
             System.out.println();
         }
     }
+
+    // /mnt/c/Users/Jenny/Google Drive/Winter2019/CS2043/Transcript Analyzer/Transcripts
+    // C:\\Users\\Vlad\\Google Drive\\Winter2019\\CS2043\\Transcript Analyzer\\Transcripts\\cohort_1
+    // C:\\Users\\Vlad\\Google Drive\\Winter2019\\CS2043\\Transcript Analyzer\\Transcripts\\dummies
 }
