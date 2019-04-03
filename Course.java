@@ -1,4 +1,4 @@
-package project.excelSpike;
+package analyzer;
 
 public class Course {
     private String courseID;

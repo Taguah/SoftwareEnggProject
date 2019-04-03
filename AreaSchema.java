@@ -1,4 +1,4 @@
-package project.excelSpike;
+package analyzer;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -21,9 +21,10 @@ public class AreaSchema {
 	 * Currently set so that redundant area names will be merged. This may not be necessary.
 	 * @param String The filename for the area config
 	 */
+/*
 	public static void setAreasFromFile(String fileName) {
 		areaMap.clear();
-		ArrayList<String> fileContents = ExcelReader.readConfigFile(fileName);
+		ArrayList<String> fileContents = ExcelParser.readConfigFile(fileName);
 		while (!fileContents.isEmpty()) {
 			String areaName = fileContents.get(0);
 			fileContents.remove(0);
@@ -41,6 +42,7 @@ public class AreaSchema {
 			addArea(areaName, areaCourses);
 		}
 	}
+*/
 
 	public static void addArea(String area, ArrayList<String> courses) {
 		if (areaMap.containsKey(area)) {

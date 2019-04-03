@@ -1,4 +1,4 @@
-package project.excelSpike;
+package analyzer;
 
 import java.util.ArrayList;
 import java.util.HashSet;

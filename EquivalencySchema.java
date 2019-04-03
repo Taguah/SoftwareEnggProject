@@ -1,4 +1,4 @@
-package project.excelSpike;
+package analyzer;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -22,9 +22,10 @@ public class EquivalencySchema {
 	 * Currently set so that the last equivalency listed overwrites older ones.
 	 * @param String The filename for the equivalency config
 	 */
+	/*
 	public static void setEquivalenciesFromFile(String fileName) {
 		equivMap.clear();
-		ArrayList<String> fileContents = ExcelReader.readConfigFile(fileName);
+		ArrayList<String> fileContents = ExcelParser.readConfigFile(fileName);
 		while (!fileContents.isEmpty()) {
 			String mainCourseName = fileContents.get(0);
 			fileContents.remove(0);
@@ -40,6 +41,7 @@ public class EquivalencySchema {
 			}
 		}
 	}
+	*/
 	
 	public static void setEquivalency(String course, List<String> equivalents) {
 		for (String equivCourse : equivalents) {

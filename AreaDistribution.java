@@ -1,4 +1,4 @@
-package project.excelSpike;
+package analyzer;
 
 import java.util.List;
 import java.util.Map;

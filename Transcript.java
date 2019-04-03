@@ -1,4 +1,4 @@
-package project.excelSpike;
+package analyzer;
 
 /*
 @author Ted Camp, Jenny Wang
@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
-import project.excelSpike.Course;
-import project.excelSpike.GradeSchema;
+import analyzer.Course;
+import analyzer.GradeSchema;
 
 import java.util.ArrayList;
 
@@ -148,8 +148,4 @@ public class Transcript {
     	String rank = RankSchema.checkRank(totalCreditHours);
     	return rank;
     }
-	
-	public String toString() {
-		return "YUP";
-	}
 }

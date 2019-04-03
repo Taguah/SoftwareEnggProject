@@ -1,4 +1,4 @@
-package project.excelSpike;
+package analyzer;
 
 public class Grade {
 
@@ -7,6 +7,8 @@ public class Grade {
 	
 	public Grade(String letterGrade) {
 		this.letterGrade = letterGrade;
+		if(letterGrade == null)
+			letterGrade = "NoGrade";
 		this.numberGrade = Grade.convertLetterToNumber(letterGrade);
 	}
 	
