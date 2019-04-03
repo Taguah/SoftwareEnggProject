@@ -36,7 +36,7 @@ public class ExcelParser {
 			workbook.close();
 		}
 		catch (FileNotFoundException e) {
-			System.out.println("Please first create a spreadsheet to read from named 'Areas' in the 'excel' directory of the project file");
+			System.out.println("Please create a workbook named 'Data.xlsx' and a sheet to read from named 'Areas' in the 'excel' directory of the project file");
 		}
 		catch(IOException e) {
 			e.printStackTrace();
