@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Analyser;
+package project.Analyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,29 +10,22 @@ import java.util.Map;
  */
 public class RankSchema {
     
-    private static Map<String, Integer> NumberOfStudent = new HashMap<String, Integer>();;
-    
     public static String checkRank(double totalCreditHour){
         
         String year = "";
         
         if(totalCreditHour < 40){
-            year = "Fist year";
+            year = "First year";
         }
-        if(totalCreditHour < 80){
+        else if(totalCreditHour < 80){
             year = "Second year";
         }
-        if(totalCreditHour < 120){
+        else if(totalCreditHour < 120){
             year = "Third year";
         }
-        if(totalCreditHour >= 120){
-            year = "Forth year";
+        else if(totalCreditHour >= 120){
+            year = "Fourth year";
         }
-        NumberOfStudent.put(year, NumberOfStudent.get(year)+1);
         return year;
-    }
-    
-    public Map<String, Integer> getNumberOfStudent(){
-        return NumberOfStudent;
     }
 }
