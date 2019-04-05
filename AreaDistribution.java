@@ -1,7 +1,9 @@
+package excelSpike;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
+
 
 public class AreaDistribution extends Distribution{
 
@@ -32,12 +34,12 @@ public class AreaDistribution extends Distribution{
 			areaDistributionMap.put(area, areaDistribution);
 		}
 	}
-	
-	public Map<String, Map<String, Integer>> getAreaDistributionMap(){
-		return areaDistributionMap;
-	}
 
 	public Map<String, Integer> getDistributionForArea(String areaName) {
 		return areaDistributionMap.get(areaName);
+	}
+	
+	public Map<String, Map<String, Integer>> getAreaDistributionMap() {
+		return areaDistributionMap;
 	}
 }
