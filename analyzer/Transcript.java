@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 public class Transcript {
 
-	private Map<String, Course> passedCourses;
-	private Map<String, Course> failedCourses;
-	private Map<String, List<Course>> retakenCourses;
+	Map<String, Course> passedCourses;
+	Map<String, Course> failedCourses;
+	Map<String, List<Course>> retakenCourses;
 
     public Transcript() {
         passedCourses = new HashMap<String, Course>();
@@ -147,5 +147,5 @@ public class Transcript {
     	}
     	String rank = RankSchema.checkRank(totalCreditHours);
     	return rank;
-	}
+    }
 }
