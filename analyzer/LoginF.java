@@ -362,31 +362,45 @@ public class LoginF extends javax.swing.JFrame {
 
     private void getMasterBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getMasterBActionPerformed
         TranscriptListFrame();
-        //To do for file
-//        FileWriter fileWriter;
-//        try {
-//            fileWriter = new FileWriter("Master Course List");
-//        } catch (IOException ex) {
-//            Logger.getLogger(Analyzer.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    PrintWriter printWriter = null;
-//        try {
-//            printWriter = new PrintWriter("Master Course List");
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(Analyzer.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//         
-//        if(transcriptT.getText().compareTo("") != 0){ 
-//        TranscriptList tList = TranscriptFileReader.readTranscriptsFromFolder(transcriptT.getText());
-//        Set<String> set = tList.getAllCourseNames();
-//        Iterator iter = set.iterator();
-//        while (iter.hasNext()) {
-//             printWriter.printf(iter.next().toString());
-//             printWriter.println();
-//        }
-//        printWriter.printf("hi");
-//        } 
-     
+        BufferedWriter bw = null;
+	    FileWriter fw = null;
+
+		try {
+
+			fw = new FileWriter("Master Course List");
+			bw = new BufferedWriter(fw);
+		
+        if(transcriptT.getText().compareTo("") != 0){ 
+        TranscriptList tList = TranscriptFileReader.readTranscriptsFromFolder(transcriptT.getText());
+        Set<String> set = tList.getAllCourseNames();
+        List list = new ArrayList(set);
+        Collections.sort(list);
+        Iterator iter = list.iterator();
+        while (iter.hasNext()) {
+             bw.write(iter.next().toString());
+             bw.write("\n");
+        }
+        } 
+			System.out.println("Done");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (bw != null)
+					bw.close();
+
+				if (fw != null)
+					fw.close();
+
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
     }//GEN-LAST:event_getMasterBActionPerformed
 
     private void getOutputsTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getOutputsTActionPerformed
