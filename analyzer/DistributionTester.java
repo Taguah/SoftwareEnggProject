@@ -9,6 +9,7 @@ import java.util.Set;
 public class DistributionTester {
 
 	public static void main(String[] args) {
+	
 
 		//Set the grades in the distribution
 		GradeSchema.addGradeToLevel("Exceeds", "A+");
@@ -35,11 +36,16 @@ public class DistributionTester {
 		//Set the areas
 		ArrayList<String> admList = new ArrayList<String>() {
 			{
-				add("ADM1113");
-				add("ADM1213");
-				add("ADM1313");
-				add("ADM2513");
-				add("ADM3123");
+				add("MATH1003");
+				add("MATH1013");
+				add("MATH1503");
+				add("MATH1863");
+				add("MATH2513");
+				add("MATH3213");
+				add("MATH3243");
+				add("MATH3373");
+				add("MATH3503");
+				add("MATH3543");
 			}
 		};
 		
@@ -50,12 +56,12 @@ public class DistributionTester {
 			}
 		};
 		
-		AreaSchema.addArea("ADM", admList);
+		AreaSchema.addArea("MATH", admList);
 		AreaSchema.addArea("BIOL", biolList);
 		
 		
 		//Specific Instance Test
-		TranscriptList testList = TranscriptFileReader.readTranscriptsFromFolder("/home1/ugrads/ecamp/CS2043/cohort_1");
+		TranscriptList testList = TranscriptFileReader.readTranscriptsFromFolder("C:\\Users\\Vlad\\Documents\\cohort_1");
 		
 		Map<String, Integer> studentsPerYear = testList.getStudentsPerYear();
 		for (String year : studentsPerYear.keySet()) {

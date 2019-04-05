@@ -3,6 +3,9 @@ package analyzer;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.Collections;
+import java.util.Set;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -16,11 +19,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 public class ExcelParser {
 	
-	private static String[] aCategories = {"area", "other", "fails", "marginal", "meets", "exceeds", "fails (E)", "marginal(E)", "meets(E)", "exceeds(E)"};
-	private static String[] rCategories = {"course", "other", "fails", "marginal", "meets", "exceeds", "fails (E)", "marginal(E)", "meets(E)", "exceeds(E)"};
+	private static String[] aCategories = {"area", "meets", "marginal", "exceeds", "fails", "other", "fails (E)", "marginal(E)", "meets(E)", "exceeds(E)"};
+	private static String[] rCategories = {"course", "exceeds", "fails", "marginal", "meets", "other", "fails (E)", "marginal (E)", "exceeds (E)", "meets(E)"};
 	
 	//At the moment, excel is required to be closed before running this method
-	public static void parse(RawDistribution rawDist, AreaDistribution areaDist, String filepath) {
+	public static void write(RawDistribution rawDist, AreaDistribution areaDist, String filepath) {
 		try {
 			FileInputStream excelIn = new FileInputStream(new File(filepath));
 			Workbook workbook = new XSSFWorkbook(excelIn);
@@ -30,9 +33,9 @@ public class ExcelParser {
 					workbook.removeSheetAt(i);
 				}
 			}
+
 			ExcelParser.writeExcelRaw(rawDist, workbook, filepath);
 			ExcelParser.writeExcelArea(areaDist, workbook, filepath);
-			//ExcelParser.readExcelArea(workbook);
 			excelIn.close();
 			workbook.close();
 		}
@@ -87,7 +90,6 @@ public class ExcelParser {
 				AreaSchema.addArea(areaName, areaCourses);
 			}
 	
-			
 			excelIn.close();
 			workbook.close();
 		}
@@ -101,24 +103,32 @@ public class ExcelParser {
 	
 	public static void writeExcelArea(AreaDistribution aDist, Workbook workbook, String path) {
 		Sheet areaSheet = workbook.createSheet("Area Distribution");
-		Object[] areaNames = aDist.getAreaDistributionMap().keySet().toArray();
+		Map<String, Map<String, Integer>> areaMap = aDist.getAreaDistributionMap();
+
 		int rowInd = 0;
 		Row row = areaSheet.createRow(rowInd++);
 		for (int colInd = 0; colInd < aCategories.length-4; colInd++) {
 			Cell cell = row.createCell(colInd);
 			cell.setCellValue((String) aCategories[colInd]);
 		}
-		for(String key : aDist.getAreaDistributionMap().keySet()) {
-			Map<String, Integer> courseDist = aDist.getAreaDistributionMap().get(key);
+
+		Set<String> set = areaMap.keySet();
+		List<String> list = new ArrayList(set);
+		Collections.sort(list);
+
+		for(String key : list) {
+			Map<String, Integer> areaDist = areaMap.get(key);
 			int column = 1;
 			row = areaSheet.createRow(rowInd++);
 			row.createCell(0).setCellValue(key);
 
-			for(String level : courseDist.keySet()) {
-				int value = courseDist.get(level);
+			Set<String> levels = areaMap.get(key).keySet();
+			List<String> levelList = new ArrayList(levels);
+			Collections.sort(levelList);
 
+			for(String level : areaDist.keySet()) {
+				int value = areaDist.get(level);
 				row.createCell(column).setCellValue(value);
-				
 				column++;
 			}
 		}
@@ -138,27 +148,40 @@ public class ExcelParser {
 	
 	public static void writeExcelRaw(RawDistribution rDist, Workbook workbook, String path) {
 		Sheet rawSheet = workbook.createSheet("Raw Distribution");
-		Object[] courseNames = rDist.getRawDistributionMap().keySet().toArray();
+		Map<String, Map<String, Integer>> rawMap = rDist.getRawDistributionMap();
+		Map<String, Map<String, Integer>> retakenMap = rDist.getRetakenDistributionMap();
+		
 		int rowInd = 0;
 		Row row = rawSheet.createRow(rowInd++);
 		for (int colInd = 0; colInd < rCategories.length; colInd++) {
 			Cell cell = row.createCell(colInd);
 			cell.setCellValue((String) rCategories[colInd]);
 		}
-
-		for(String key : rDist.getRawDistributionMap().keySet()) {
-			Map<String, Integer> courseDist = rDist.getRawDistributionMap().get(key);
-			Map<String, Integer> courseDistRetaken = rDist.getRetakenDistributionMap().get(key);
+		
+		Set<String> set = rawMap.keySet();
+		List<String> list = new ArrayList(set);
+		Collections.sort(list);
+		
+		for(String key : list) {
+			Map<String, Integer> courseDist = rawMap.get(key);
+			Map<String, Integer> courseDistRetaken = retakenMap.get(key);
 			int column = 1;
 			row = rawSheet.createRow(rowInd++);
 			row.createCell(0).setCellValue(key);
 
-			for(String level : courseDist.keySet()) {
+			Set<String> levels = rawMap.get(key).keySet();
+			List<String> levelList = new ArrayList(levels);
+			Collections.sort(levelList);
+
+			for(String level : levelList) {
 				int value = courseDist.get(level);
 				int valueRetaken = 0;
-				if(courseDistRetaken != null) {
-					valueRetaken = courseDistRetaken.get(level);
+				if(!level.equals("Other")) {
+					if(courseDistRetaken != null) {
+						valueRetaken = courseDistRetaken.get(level);
+					}
 				}
+				
 				row.createCell(column).setCellValue(value);
 				if(column != 1) {
 					row.createCell(column+4).setCellValue(valueRetaken);

@@ -62,7 +62,7 @@ public class EquivalencySchema {
 		try {
 			FileInputStream excelIn = new FileInputStream(new File(fileName));
 			Workbook workbook = new XSSFWorkbook(excelIn);
-			Sheet equivSheet = workbook.getSheet("Equivelents");
+			Sheet equivSheet = workbook.getSheet("Equivalents");
 
 			int numCols = equivSheet.getRow(0).getLastCellNum();
 

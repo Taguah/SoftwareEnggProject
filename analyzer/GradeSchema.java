@@ -77,7 +77,7 @@ public class GradeSchema {
     
     public static Boolean checkIfFailed(Course course) {
 		String letterGrade = course.getGrade().getLetterGrade();
-		if (GradeSchema.checkLevel(letterGrade).equals("Fail") || GradeSchema.checkLevel(letterGrade).equals("fail")) {
+		if (GradeSchema.checkLevel(letterGrade).contains("Fail") || GradeSchema.checkLevel(letterGrade).contains("fail")) {
 			return true;
 		}
 		else {
