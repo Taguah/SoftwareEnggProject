@@ -1,8 +1,4 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
-
+package excelSpike;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -11,6 +7,7 @@ import java.util.Set;
 public class DistributionTester {
 
 	public static void main(String[] args) {
+		
 
 		List<String> equivalents = new ArrayList<String>();
 		equivalents.add("Engl102");
@@ -76,11 +73,11 @@ public class DistributionTester {
 		}
 		System.out.println();
 		
-		List<Course> mathCourses = testList.getAllCoursesInArea("Math");
-		System.out.println("Math Courses:");
-		for (Course course : mathCourses) {
-			System.out.println(course.getCourseID());
-		}
+		//List<Course> mathCourses = testList.getAllCoursesInArea("Math");
+		//System.out.println("Math Courses:");
+		//for (Course course : mathCourses) {
+		//	System.out.println(course.getCourseID());
+		//}
 		System.out.println();
 
 		//Set the grades in the distribution
@@ -121,7 +118,7 @@ public class DistributionTester {
 			}
 			System.out.println();
 		}
-		
-		ExcelParser.parse(testRawDist, testAreaDist);
+		//TranscriptList transcriptList = TranscriptFileReader.readTranscriptsFromFolder("H:/Old Windows/Users/ethan/Eclipse-workspace/excelSpike/src/transcripts");
+		//ExcelWriter.write(transcriptList);
 	}
 }

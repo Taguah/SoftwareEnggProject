@@ -5,12 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -21,12 +20,12 @@ public class ExcelWriter {
 	
 	private static String[] aCategories = {"area", "other", "fails", "marginal", "meets", "exceeds"};
 	private static String[] rCategories = {"course", "other", "fails", "marginal", "meets", "exceeds", "fails (E)", "marginal(E)", "meets(E)", "exceeds(E)"};
-	private static String fileLocation = "./output/Data.xlsx";
+	
 	
 	//At the moment, excel is required to be closed before running this method (Seemingly not on linux though)
-	public static void write(TranscriptList tList) {
+	public static void write(TranscriptList tList, String fileLocation) {
+		fileLocation = fileLocation.substring(0, fileLocation.lastIndexOf('\\')) + "\\OutputData.xlsx";
 		try {
-			Files.createDirectories(Paths.get("./output"));
 			File f = new File(fileLocation);
 			if (f.isFile()) {
 				FileInputStream excelIn = new FileInputStream(new File(fileLocation));
@@ -41,8 +40,8 @@ public class ExcelWriter {
 				workbook.close();
 			}
 			Workbook workbook = new XSSFWorkbook();
-			ExcelWriter.writeExcelArea(tList, workbook);
-			ExcelWriter.writeExcelRaw(tList, workbook);
+			ExcelWriter.writeExcelArea(tList, workbook, fileLocation);
+			ExcelWriter.writeExcelRaw(tList, workbook, fileLocation);
 			workbook.close();
 		}
 		catch(FileNotFoundException e) {
@@ -55,7 +54,7 @@ public class ExcelWriter {
 		}
 	}
 	
-	public static void writeExcelArea(TranscriptList tList, Workbook workbook) {
+	public static void writeExcelArea(TranscriptList tList, Workbook workbook, String fileLocation) {
 		AreaDistribution aDist = new AreaDistribution(tList);
 		aDist.setDistributionForAreas();
 		
@@ -86,8 +85,12 @@ public class ExcelWriter {
 			workbook.write(excelOut);
 			excelOut.close();
 		}
+		catch(EmptyFileException e) {
+			System.out.println("Output file corrupted, please delete and try again.");
+		}
 		catch(FileNotFoundException e) {
 			System.out.println("Please close the workbook before running this application.");
+			e.printStackTrace();
 		}
 		catch(IOException e) {
 			System.out.println("Critical error: Distribution data excel file has been corrupted. Deleting output. Please try again.");
@@ -96,7 +99,7 @@ public class ExcelWriter {
 		}
 	}
 	
-	public static void writeExcelRaw(TranscriptList tList, Workbook workbook) {
+	public static void writeExcelRaw(TranscriptList tList, Workbook workbook, String fileLocation) {
 		RawDistribution rDist = new RawDistribution(tList);
 		rDist.setDistributionForCourses();
 		rDist.setDistributionForRetakenCourses();
@@ -121,13 +124,14 @@ public class ExcelWriter {
 				Object[] courseValues = courseDist.values().toArray();
 				//length-2 until "other" column is added
 				Object[] allValues = Arrays.copyOf(courseValues, rCategories.length-2);
+				System.out.println(allValues.length);
 				for (Map<String, Integer> retakenDist : retakenDists) {
 					if (rDist.getRetakenDistributionMap().containsKey(courseName)) {
 						//concat retaken values to course values
 						retakenDist = rDist.getRetakenCourseDistribution(courseName);
 						Object[] retakenValues = retakenDist.values().toArray();
 						System.arraycopy(courseValues,  0,  allValues,  0,  courseValues.length);
-						System.arraycopy(retakenValues,  0,  allValues,  courseValues.length,  retakenValues.length);
+						System.arraycopy(retakenValues,  0,  allValues,  courseValues.length,  8);
 						break;
 					}
 				}
