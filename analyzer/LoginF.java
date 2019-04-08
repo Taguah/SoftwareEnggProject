@@ -346,7 +346,7 @@ public class LoginF extends javax.swing.JFrame {
 
 		try {
 
-			fw = new FileWriter("Master Course List");
+			fw = new FileWriter("Master.txt");
 			bw = new BufferedWriter(fw);
 		
         if(transcriptT.getText().compareTo("") != 0){ 
@@ -380,33 +380,7 @@ public class LoginF extends javax.swing.JFrame {
 				ex.printStackTrace();
 			}
 		}
-    
 
-        // To do for file
-        // FileWriter fileWriter;
-        // try {
-        // fileWriter = new FileWriter("Master Course List");
-        // } catch (IOException ex) {
-        // Logger.getLogger(Analyzer.class.getName()).log(Level.SEVERE, null, ex);
-        // }
-        // PrintWriter printWriter = null;
-        // try {
-        // printWriter = new PrintWriter("Master Course List");
-        // } catch (FileNotFoundException ex) {
-        // Logger.getLogger(Analyzer.class.getName()).log(Level.SEVERE, null, ex);
-        // }
-        //
-        // if(transcriptT.getText().compareTo("") != 0){
-        // TranscriptList tList =
-        // TranscriptFileReader.readTranscriptsFromFolder(transcriptT.getText());
-        // Set<String> set = tList.getAllCourseNames();
-        // Iterator iter = set.iterator();
-        // while (iter.hasNext()) {
-        // printWriter.printf(iter.next().toString());
-        // printWriter.println();
-        // }
-        // printWriter.printf("hi");
-        // }
 
     }// GEN-LAST:event_getMasterBActionPerformed
 
