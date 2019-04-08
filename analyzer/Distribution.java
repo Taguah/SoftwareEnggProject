@@ -17,13 +17,4 @@ public abstract class Distribution {
 		}
 		return distributionMap;
 	}
-
-	public ArrayList<String> getLetterGrades(ArrayList<Course> courseList){
-		ArrayList<String> letterGrades = new ArrayList<String>();
-		for (Course course : courseList) {
-			String letterGrade = course.getGrade().getLetterGrade();
-			letterGrades.add(letterGrade);
-		}
-		return letterGrades;
-	}
 }
