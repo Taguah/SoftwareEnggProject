@@ -93,6 +93,9 @@ public class EquivalencySchema {
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+		catch(NullPointerException e) {
+			System.out.println("No equivalencies in provided schema.");
+		}
 	}
 	
 	public static void setEquivalency(String course, List<String> equivalents) {

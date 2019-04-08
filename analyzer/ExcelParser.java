@@ -19,7 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 public class ExcelParser {
 	
-	private static String[] aCategories = {"area", "meets", "marginal", "exceeds", "fails", "other", "fails (E)", "marginal(E)", "meets(E)", "exceeds(E)"};
+	private static String[] aCategories = {"area", "exceeds", "fails", "marginal", "meets"};
 	private static String[] rCategories = {"course", "exceeds", "fails", "marginal", "meets", "other", "fails (E)", "marginal (E)", "exceeds (E)", "meets(E)"};
 	
 	//At the moment, excel is required to be closed before running this method
@@ -76,18 +76,21 @@ public class ExcelParser {
 					iterC.next();
 				}
 				String areaName = iterC.next().getStringCellValue();
-				
-				ArrayList<String> areaCourses = new ArrayList<>();
-				while (iterR.hasNext()) {
-					currentRow = iterR.next();
-					iterC = currentRow.cellIterator();
-					if (currentRow.getPhysicalNumberOfCells() != 0) {
-						areaCourses.add(iterC.next().getStringCellValue());
-						iterC.remove();
-						currentRow.shiftCellsLeft(1, areaCount, 1);
+				areaName.trim();
+				if(areaName.length() > 0) {
+
+					ArrayList<String> areaCourses = new ArrayList<>();
+					while (iterR.hasNext()) {
+						currentRow = iterR.next();
+						iterC = currentRow.cellIterator();
+						if (currentRow.getPhysicalNumberOfCells() != 0) {
+							areaCourses.add(iterC.next().getStringCellValue());
+							iterC.remove();
+							currentRow.shiftCellsLeft(1, areaCount, 1);
+						}
 					}
-				}
-				AreaSchema.addArea(areaName, areaCourses);
+					AreaSchema.addArea(areaName, areaCourses);
+				}					
 			}
 	
 			excelIn.close();
@@ -107,7 +110,7 @@ public class ExcelParser {
 
 		int rowInd = 0;
 		Row row = areaSheet.createRow(rowInd++);
-		for (int colInd = 0; colInd < aCategories.length-4; colInd++) {
+		for (int colInd = 0; colInd < 5; colInd++) {
 			Cell cell = row.createCell(colInd);
 			cell.setCellValue((String) aCategories[colInd]);
 		}
@@ -126,11 +129,14 @@ public class ExcelParser {
 			List<String> levelList = new ArrayList(levels);
 			Collections.sort(levelList);
 
-			for(String level : areaDist.keySet()) {
-				int value = areaDist.get(level);
-				row.createCell(column).setCellValue(value);
-				column++;
+			for(String level : levelList) {
+				if(!level.contains("other") && !level.contains("Other")) {
+					int value = areaDist.get(level);
+					row.createCell(column).setCellValue(value);
+					column++;
+				}
 			}
+			
 		}
 		try {
 			//Relative filepath from this project
