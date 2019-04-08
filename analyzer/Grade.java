@@ -50,7 +50,7 @@ public class Grade {
 						break;
 			case "D":	numberGrade = 1.0;
 						break;
-			case "D-": 	numberGrade = 0.7;
+			case "D-":	numberGrade = 0.7;
 						break;
 			default: 	numberGrade = 0;
 		}
@@ -80,7 +80,7 @@ public class Grade {
 			return "D+";
 		else if (number >= 1.0)
 			return "D";
-		else if (number >= 0.7) 
+		else if (number >= 0.7)
 			return "D-";
 		else {
 			return "F";
