@@ -11,7 +11,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Analyzer {
     
- private LoginF login=new LoginF();
+ private AnalyzerGUI login = new AnalyzerGUI();
    
     private static void changeLookAndFeel() {
         try 
@@ -29,6 +29,6 @@ public class Analyzer {
             
     public static void main(String [] args){
         changeLookAndFeel();
-        Analyzer analyser=new Analyzer();
+        Analyzer analyzer = new Analyzer();
     }
 }

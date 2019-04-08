@@ -8,14 +8,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
-
 import java.util.ArrayList;
 
 public class Transcript {
 
-	private Map<String, Course> passedCourses;
-	private Map<String, Course> failedCourses;
-	private Map<String, List<Course>> retakenCourses;
+	Map<String, Course> passedCourses;
+	Map<String, Course> failedCourses;
+	Map<String, List<Course>> retakenCourses;
 
     public Transcript() {
         passedCourses = new HashMap<String, Course>();

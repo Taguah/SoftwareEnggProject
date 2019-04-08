@@ -39,6 +39,10 @@ public class TranscriptFileReader {
             TranscriptList returnList = new TranscriptList(transcriptList);
             return returnList;
         }
+        catch(NullPointerException e) {
+        	System.out.println("Please specify a transcript folder.");
+        	return null;
+        }
         catch(Exception e) {
             e.printStackTrace();
             return null;
