@@ -19,8 +19,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelWriter {
 	
-	private static String[] aCategories = {"area", "meets", "marginal", "exceeds", "fails", "other"};
-	private static String[] rCategories = {"course", "exceeds", "fails", "marginal", "meets", "other", "fails(E)", "marginal(E)", "meets(E)", "exceeds(E)"};
+	private static String[] aCategories = {"area", "exceeds", "fails", "marginal", "meets"};
+	private static String[] rCategories = {"course", "exceeds", "fails", "marginal", "meets", "other", "fails (E)", "marginal (E)", "exceeds (E)", "meets(E)"};
 	
 	
 	//At the moment, excel is required to be closed before running this method (Seemingly not on linux though)
@@ -89,8 +89,8 @@ public class ExcelWriter {
 			List<String> levelList = new ArrayList<>(levels);
 			Collections.sort(levelList);
 
-			if (key != "") {
-				for(String level : areaDist.keySet()) {
+			for(String level : levelList) {
+				if(!level.contains("other") && !level.contains("Other")) {
 					int value = areaDist.get(level);
 					row.createCell(column).setCellValue(value);
 					column++;
