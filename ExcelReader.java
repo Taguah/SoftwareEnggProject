@@ -5,11 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -36,80 +34,51 @@ public class ExcelReader {
 	//Columns must be organized longest to shortest
 	public static void readExcelArea(Workbook workbook) {
 		AreaSchema.getAreaMap().clear();
-		int sheetIndex = workbook.getSheetIndex("Areas");
-		Sheet areas = workbook.getSheetAt(sheetIndex);
-		Iterator<Row> iterR = areas.iterator();
-		Row currentRow = iterR.next();
-		Iterator<Cell> iterC = currentRow.cellIterator();
-		int areaCount = 0;
+		Sheet areas = workbook.getSheet("Areas");
 		
-		//areaCount sometimes counts additional empty columns
-		while (iterC.hasNext()) {
-			iterC.next();
-			areaCount++;
-		}
-		//iterate rows by column
-		for (int i = 1; i < areaCount; i++) {
-			//resets the row iterator per column
-			iterR = areas.iterator();
-			currentRow = iterR.next();
-			iterC = currentRow.cellIterator();
-			//indexes column for area name
-			for (int j = 1; j < i; j++) {
-				iterC.next();
-			}
-			String areaName = iterC.next().getStringCellValue();
-			
-			ArrayList<String> areaCourses = new ArrayList<>();
-			while (iterR.hasNext()) {
-				currentRow = iterR.next();
-				iterC = currentRow.cellIterator();
-				if (currentRow.getPhysicalNumberOfCells() != 0) {
-					areaCourses.add(iterC.next().getStringCellValue());
-					iterC.remove();
-					currentRow.shiftCellsLeft(1, areaCount, 1);
+		int numCols = areas.getRow(0).getLastCellNum();
+		
+		for (int col = 0; col < numCols; col++) {
+			int row = 0;
+			Cell current = areas.getRow(row).getCell(col);
+			String area = current.getStringCellValue().trim();
+			row++;
+			current = areas.getRow(row).getCell(col);
+			ArrayList<String> courses = new ArrayList<>();
+			while (current != null) {
+				courses.add(current.getStringCellValue().trim());
+				row++;
+				if (areas.getRow(row) == null) {
+					break;
 				}
+				current = areas.getRow(row).getCell(col);
 			}
-			AreaSchema.addArea(areaName, areaCourses);
+			AreaSchema.addArea(area, courses);
 		}
 	}
-		
+	
 	public static void readExcelEquivalencies(Workbook workbook) {
-		EquivalencySchema.clearEquivalencyMap();
-		int eqColCount = 0;
-		String mainCourse = null;
-		List<String> altCourses = new ArrayList<>();
-		int sheetIndex = workbook.getSheetIndex("Equivalents");
-		Sheet equivalents = workbook.getSheetAt(sheetIndex);
-		Iterator<Row> iterR = equivalents.iterator();
-		Row currentRow = iterR.next();
-		Iterator<Cell> iterC = currentRow.cellIterator();
-		while (iterC.hasNext()) {
-			iterC.next();
-			eqColCount++;
-		}
-		//iterate rows by column
-		for (int i = 1; i < eqColCount+1; i++) {
-			//resets the row iterator per column
-			iterR = equivalents.iterator();
-			currentRow = iterR.next();
-			iterC = currentRow.cellIterator();
-			for (int j = 1; j < i; j++) {
-				iterC.next();
-			}
-			if (iterC.hasNext()) {
-				mainCourse = iterC.next().getStringCellValue();
-			}
-			while (iterR.hasNext()) {
-				currentRow = iterR.next();
-				iterC = currentRow.cellIterator();
-				if (currentRow.getPhysicalNumberOfCells() != 0) {
-					altCourses.add(iterC.next().getStringCellValue());
-					iterC.remove();
-					currentRow.shiftCellsLeft(1, eqColCount, 1);
-					EquivalencySchema.setEquivalency(mainCourse, altCourses);
+		EquivalencySchema.clearEquivalencies();
+		Sheet equivSheet = workbook.getSheet("Equivalents");
+
+		int numCols = equivSheet.getRow(0).getLastCellNum();
+
+		for(int col = 0; col < numCols; col++) {
+			int row = 0;
+			Cell current = equivSheet.getRow(row).getCell(col);
+			String subject = current.getStringCellValue().trim();
+			row++;
+			current = equivSheet.getRow(row).getCell(col);
+			List<String> equivList = new ArrayList<>();
+			while(current != null) {
+				equivList.add(current.getStringCellValue().trim());
+				row++;
+				if(equivSheet.getRow(row) == null) {
+					break;
 				}
+				current = equivSheet.getRow(row).getCell(col);
 			}
+			EquivalencySchema.setEquivalency(subject, equivList);
 		}
 	}
 }
