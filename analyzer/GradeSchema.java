@@ -3,13 +3,14 @@ package analyzer;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class GradeSchema {
 
-    private static HashMap<String, Set<String>> gradeMap = new HashMap<>();
+    private static Map<String, Set<String>> gradeMap = new HashMap<String, Set<String>>();
 
     public static void SetGradeSchema(String filepath) {
         BufferedReader br = null;
@@ -84,5 +85,4 @@ public class GradeSchema {
 			return false;
 		}
 	}
-
 }
