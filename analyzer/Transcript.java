@@ -25,7 +25,7 @@ public class Transcript {
         failedCourses = new HashMap<String, Course>();
         retakenCourses = new HashMap<String, List<Course>>();
     }
-   
+
     public Transcript(ArrayList<Course> courseListIn) {
     	passedCourses = new HashMap<String, Course>();
         failedCourses = new HashMap<String, Course>();
@@ -138,7 +138,7 @@ public class Transcript {
 		}
 		return averageGrades;
 	}
-	
+
 	public String checkRank() {
     	double totalCreditHours = 0;
     	
