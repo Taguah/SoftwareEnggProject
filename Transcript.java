@@ -1,4 +1,4 @@
-package excelSpike;
+package analyzer;
 /*
 @author Ted Camp, Jenny Wang
 */
