@@ -1,4 +1,4 @@
-package excelSpike;
+package analyzer;
 /**
  *
  * @author rojan
