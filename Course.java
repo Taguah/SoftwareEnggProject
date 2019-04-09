@@ -1,4 +1,4 @@
-package excelSpike;
+package analyzer;
 public class Course {
     private String courseID;
     private String section;
