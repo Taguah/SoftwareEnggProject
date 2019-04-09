@@ -16,16 +16,16 @@ import java.util.ArrayList;
 
 public class Transcript {
 
-	private Map<String, Course> passedCourses;
-	private Map<String, Course> failedCourses;
-	private Map<String, List<Course>> retakenCourses;
+	Map<String, Course> passedCourses;
+	Map<String, Course> failedCourses;
+	Map<String, List<Course>> retakenCourses;
 
     public Transcript() {
         passedCourses = new HashMap<String, Course>();
         failedCourses = new HashMap<String, Course>();
         retakenCourses = new HashMap<String, List<Course>>();
     }
-   
+
     public Transcript(ArrayList<Course> courseListIn) {
     	passedCourses = new HashMap<String, Course>();
         failedCourses = new HashMap<String, Course>();
@@ -138,7 +138,7 @@ public class Transcript {
 		}
 		return averageGrades;
 	}
-	
+
 	public String checkRank() {
     	double totalCreditHours = 0;
     	

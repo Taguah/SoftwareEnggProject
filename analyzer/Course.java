@@ -8,7 +8,7 @@ public class Course {
     private String term;
 
     public Course(String courseID, String section, String grade, double creditHours, String term) {
-        this.courseID = courseID;
+        this.courseID = EquivalencySchema.getEquivalent(courseID);
         this.section = section;
         this.grade = new Grade(grade);
         this.creditHours = creditHours;
