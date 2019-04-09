@@ -1,4 +1,4 @@
-package excelSpike;
+package analyzer;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
