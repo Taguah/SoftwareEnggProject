@@ -1,4 +1,4 @@
-package excelSpike;
+package analyzer;
 
 import java.io.File;
 import java.io.FileInputStream;
