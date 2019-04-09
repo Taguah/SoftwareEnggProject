@@ -1,4 +1,4 @@
-package excelSpike;
+package analyzer;
 public class Grade {
 
 	private String letterGrade;
