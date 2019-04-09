@@ -1,4 +1,4 @@
-package excelSpike;
+package analyzer;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
