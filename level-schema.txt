@@ -1,0 +1,8 @@
+Exceeds=A+,A,A-
+Meets=B+,B,B-
+Marginal=C+,C
+Fails=D,F
+Other=AUD,CTN,CR,NCR,DNW,INC,NR,W
+
+
+
